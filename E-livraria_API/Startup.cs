@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using E_livraria_API.Data;
 
 namespace E_livraria_API
 {
@@ -32,6 +34,9 @@ namespace E_livraria_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "E_livraria_API", Version = "v1" });
             });
+
+            services.AddDbContext<E_livraria_APIContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("E_livraria_APIContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
