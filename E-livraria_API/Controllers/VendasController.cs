@@ -12,47 +12,47 @@ namespace E_livraria_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LivroesController : ControllerBase
+    public class VendasController : ControllerBase
     {
         private readonly E_livraria_APIContext _context;
 
-        public LivroesController(E_livraria_APIContext context)
+        public VendasController(E_livraria_APIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Livroes
+        // GET: api/Vendas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Livro>>> GetLivro()
+        public async Task<ActionResult<IEnumerable<Venda>>> Getvendas()
         {
-            return await _context.Livro.ToListAsync();
+            return await _context.vendas.ToListAsync();
         }
 
-        // GET: api/Livroes/5
+        // GET: api/Vendas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Livro>> GetLivro(int id)
+        public async Task<ActionResult<Venda>> GetVenda(int id)
         {
-            var livro = await _context.Livro.FindAsync(id);
+            var venda = await _context.vendas.FindAsync(id);
 
-            if (livro == null)
+            if (venda == null)
             {
                 return NotFound();
             }
 
-            return livro;
+            return venda;
         }
 
-        // PUT: api/Livroes/5
+        // PUT: api/Vendas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLivro(int id, Livro livro)
+        public async Task<IActionResult> PutVenda(int id, Venda venda)
         {
-            if (id != livro.id)
+            if (id != venda.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(livro).State = EntityState.Modified;
+            _context.Entry(venda).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace E_livraria_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LivroExists(id))
+                if (!VendaExists(id))
                 {
                     return NotFound();
                 }
@@ -73,38 +73,36 @@ namespace E_livraria_API.Controllers
             return NoContent();
         }
 
-        // POST: api/Livroes
+        // POST: api/Vendas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Livro>> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public async Task<ActionResult<Venda>> PostVenda(Venda venda)
         {
-            Livro livroAux = _context.Livro.LastOrDefault();
-            Livro livro = new Livro(livroAux.id, nome, autor, preco, genero, imageURL, livroURL, editora);
-            _context.Livro.Add(livro);
+            _context.vendas.Add(venda);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLivro", new { id = livro.id }, livro);
+            return CreatedAtAction("GetVenda", new { id = venda.id }, venda);
         }
 
-        // DELETE: api/Livroes/5
+        // DELETE: api/Vendas/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLivro(int id)
+        public async Task<IActionResult> DeleteVenda(int id)
         {
-            var livro = await _context.Livro.FindAsync(id);
-            if (livro == null)
+            var venda = await _context.vendas.FindAsync(id);
+            if (venda == null)
             {
                 return NotFound();
             }
 
-            _context.Livro.Remove(livro);
+            _context.vendas.Remove(venda);
             await _context.SaveChangesAsync();
-            
+
             return NoContent();
         }
 
-        private bool LivroExists(int id)
+        private bool VendaExists(int id)
         {
-            return _context.Livro.Any(e => e.id == id);
+            return _context.vendas.Any(e => e.id == id);
         }
     }
 }

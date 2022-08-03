@@ -2,14 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E_livraria_API.Models.Enums;
+
 
 namespace E_livraria_API.Models
 {
     public class Editora : Usuario
     {
-        public Editora(int id, string nome, string login, string password, bool auth, int accType) : base(id, nome, login, password, auth)
+        public ICollection<Livro> livros { get; protected set; } = new List<Livro>();
+
+        public Editora()
         {
-            base.accType = accType;
         }
+
+        public Editora(int id, string nome, string login, string password) : base(id, nome, login, password)
+        {
+            base.accType = accountType.Editora;
+        }
+
+        public void listaLivro(Livro livro)
+        {
+            livros.Add(livro);
+        }
+
+        public void deletaLivro(Livro livro)
+        {
+            livros.Remove(livro);
+        }
+        
+       
     }
 }

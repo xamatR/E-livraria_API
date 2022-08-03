@@ -14,6 +14,21 @@ namespace E_livraria_API.Data
         {
         }
 
-        public DbSet<E_livraria_API.Models.Livro> Livro { get; set; }
+        public DbSet<Livro> Livro { get; set; }
+        public DbSet<Editora> Editoras { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<ItemVenda> ItemVendas { get; set; }
+        public DbSet<Venda> vendas { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cliente>()
+                .HasAlternateKey(x => x.login);
+            modelBuilder.Entity<Editora>()
+               .HasAlternateKey(x => x.login);
+
+            modelBuilder.Entity<ItemVenda>()
+                .HasOne(x => x.livros);
+
+        }
     }
 }

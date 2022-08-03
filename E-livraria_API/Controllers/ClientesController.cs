@@ -12,47 +12,47 @@ namespace E_livraria_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LivroesController : ControllerBase
+    public class ClientesController : ControllerBase
     {
         private readonly E_livraria_APIContext _context;
 
-        public LivroesController(E_livraria_APIContext context)
+        public ClientesController(E_livraria_APIContext context)
         {
             _context = context;
         }
 
-        // GET: api/Livroes
+        // GET: api/Clientes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Livro>>> GetLivro()
+        public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
-            return await _context.Livro.ToListAsync();
+            return await _context.Clientes.ToListAsync();
         }
 
-        // GET: api/Livroes/5
+        // GET: api/Clientes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Livro>> GetLivro(int id)
+        public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
-            var livro = await _context.Livro.FindAsync(id);
+            var cliente = await _context.Clientes.FindAsync(id);
 
-            if (livro == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return livro;
+            return cliente;
         }
 
-        // PUT: api/Livroes/5
+        // PUT: api/Clientes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLivro(int id, Livro livro)
+        public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
-            if (id != livro.id)
+            if (id != cliente.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(livro).State = EntityState.Modified;
+            _context.Entry(cliente).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace E_livraria_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LivroExists(id))
+                if (!ClienteExists(id))
                 {
                     return NotFound();
                 }
@@ -73,38 +73,36 @@ namespace E_livraria_API.Controllers
             return NoContent();
         }
 
-        // POST: api/Livroes
+        // POST: api/Clientes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Livro>> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
-            Livro livroAux = _context.Livro.LastOrDefault();
-            Livro livro = new Livro(livroAux.id, nome, autor, preco, genero, imageURL, livroURL, editora);
-            _context.Livro.Add(livro);
+            _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLivro", new { id = livro.id }, livro);
+            return CreatedAtAction("GetCliente", new { id = cliente.id }, cliente);
         }
 
-        // DELETE: api/Livroes/5
+        // DELETE: api/Clientes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLivro(int id)
+        public async Task<IActionResult> DeleteCliente(int id)
         {
-            var livro = await _context.Livro.FindAsync(id);
-            if (livro == null)
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            _context.Livro.Remove(livro);
+            _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
-            
             return NoContent();
         }
 
-        private bool LivroExists(int id)
+        private bool ClienteExists(int id)
         {
-            return _context.Livro.Any(e => e.id == id);
+            return _context.Clientes.Any(e => e.id == id);
         }
+
     }
 }

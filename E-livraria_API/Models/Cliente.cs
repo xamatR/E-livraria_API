@@ -2,14 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E_livraria_API.Models.Enums;
 
 namespace E_livraria_API.Models
 {
     public class Cliente : Usuario
     {
-        public Cliente(int id, string nome, string login, string password, bool auth, int accType ) : base(id, nome, login, password, auth)
+        public ICollection<ItemVenda> itemVenda { get; private set; } = new List<ItemVenda>();
+
+        public Cliente()
         {
-            base.accType = accType;
+        }
+
+        public Cliente(int id, string nome, string login, string password) : base(id, nome, login, password)
+        {
+            base.accType = accountType.Cliente;
+        }
+       /* 
+        public ICollection<Livro> getLivrosComprados()
+        {
+            ICollection<Livro> livros = null;
+            for (int i = 0; i < this.itemVenda.Count; i++)
+            {
+                var aux = this.itemVenda.ElementAt(i).historicoLivrosComprados();
+                for (int j = 0; j < aux.Count; j++)
+                {
+                    livros.Add(aux.ElementAt(j));
+                }
+            }
+            return livros;
+        }*/
+
+        public ICollection<Livro> getLivrosComprados()
+        {
+            ICollection<Livro> livros = new List<Livro>();
+            for (int i = 0; i < this.itemVenda.Count; i++)
+            {
+                livros.Add(this.itemVenda.ElementAt(i).livros);
+            }
+            return livros;
         }
     }
+
 }
