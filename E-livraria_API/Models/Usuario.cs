@@ -30,6 +30,14 @@ namespace E_livraria_API.Models
         {
         }
 
+        protected Usuario(string nome, string login, string password)
+        {
+            this.nome = nome;
+            this.login = login;
+            this.password = password;
+            this.auth = false;
+        }
+
         protected Usuario(int id, string nome, string login, string password)
         {
             this.id = id;

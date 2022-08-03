@@ -14,25 +14,16 @@ namespace E_livraria_API.Models
         {
         }
 
+        public Cliente(string nome, string login, string password) : base(nome, login, password)
+        {
+            base.accType = accountType.Cliente;
+        }
+
         public Cliente(int id, string nome, string login, string password) : base(id, nome, login, password)
         {
             base.accType = accountType.Cliente;
         }
-       /* 
-        public ICollection<Livro> getLivrosComprados()
-        {
-            ICollection<Livro> livros = null;
-            for (int i = 0; i < this.itemVenda.Count; i++)
-            {
-                var aux = this.itemVenda.ElementAt(i).historicoLivrosComprados();
-                for (int j = 0; j < aux.Count; j++)
-                {
-                    livros.Add(aux.ElementAt(j));
-                }
-            }
-            return livros;
-        }*/
-
+       
         public ICollection<Livro> getLivrosComprados()
         {
             ICollection<Livro> livros = new List<Livro>();

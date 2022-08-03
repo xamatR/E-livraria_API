@@ -76,8 +76,9 @@ namespace E_livraria_API.Controllers
         // POST: api/Clientes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
+        public async Task<ActionResult<Cliente>> PostCliente(string nome, string login, string password)
         {
+            Cliente cliente = new Cliente(nome,login,password);
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
 
@@ -103,6 +104,61 @@ namespace E_livraria_API.Controllers
         {
             return _context.Clientes.Any(e => e.id == id);
         }
+
+        [HttpGet("Auth")]
+        public async Task<IActionResult> Auth(string login, string password)
+        {
+            var clientes = await _context.Clientes.ToListAsync();
+            var cliente = clientes.Find(x => x.login == login.ToUpper());
+            try
+            {
+                if ((!cliente.verificaLogin(login, password)) && clientes.Count() > 0)
+                {
+                    return NotFound("Senha Incorreta");
+                }
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true, Data = cliente });
+        }
+
+        [HttpPut("Logout")]
+        public async Task<IActionResult> Logout(int id)
+        {
+            var cliente = await _context.Clientes.FindAsync(id);
+
+            if (cliente == null)
+            {
+                return BadRequest();
+            }
+            cliente.logout();
+            await this.PutCliente(id, cliente);
+            return Ok(new { success = true, Data = "Logout successo" });
+        }
+
+        [HttpGet("GetComprados")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetComprados(int id)
+        {
+            var cliente = await _context.Clientes.FindAsync(id);
+            var result = from obj in _context.ItemVendas select obj;
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            return Ok(new
+            {
+                success = true,
+                Data = await result
+                .Where(x => x.cliente.id == id)
+                .OrderBy(x => x.livros.nome)
+                .ToListAsync()
+            });
+         
+        }
+            
 
     }
 }

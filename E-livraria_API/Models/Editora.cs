@@ -15,6 +15,11 @@ namespace E_livraria_API.Models
         {
         }
 
+        public Editora(string nome, string login, string password) : base(nome, login, password)
+        {
+            base.accType = accountType.Editora;
+        }
+
         public Editora(int id, string nome, string login, string password) : base(id, nome, login, password)
         {
             base.accType = accountType.Editora;
@@ -29,7 +34,5 @@ namespace E_livraria_API.Models
         {
             livros.Remove(livro);
         }
-        
-       
     }
 }

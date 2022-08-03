@@ -40,6 +40,15 @@ namespace E_livraria_API.Models
             this.editora = editora;
         }
 
-        
+        public Livro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        {
+            this.nome = nome;
+            this.autor = autor;
+            this.preco = preco;
+            this.genero = genero;
+            this.imageURL = imageURL;
+            this.livroURL = livroURL;
+            this.editora = editora;
+        }
     }
 }

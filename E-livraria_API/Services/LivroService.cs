@@ -18,10 +18,21 @@ namespace E_livraria_API.Services
 
         public async Task<Livro> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
         {
-            var livroAux = await _context.Livro.FindAsync(_context.Livro.Count());
-            Livro livro = new Livro(livroAux.id+1, nome, autor, preco, genero, imageURL, livroURL, editora);
+            Livro livro = new Livro(nome, autor, preco, genero, imageURL, livroURL, editora);
             _context.Livro.Add(livro);
             await _context.SaveChangesAsync();
+
+            return livro;
+        }
+
+        public Livro GetLivro(int id)
+        {
+            var livro = _context.Livro.Find(id);
+
+            if (livro == null)
+            {
+                return null;
+            }
 
             return livro;
         }

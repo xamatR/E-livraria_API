@@ -80,8 +80,9 @@ namespace E_livraria_API.Controllers
         // POST: api/Editoras
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Editora>> PostEditora(Editora editora)
+        public async Task<ActionResult<Editora>> PostEditora(string nome, string login, string password)
         {
+            Editora editora = new Editora(nome, login, password);
             _context.Editoras.Add(editora);
             await _context.SaveChangesAsync();
 
@@ -116,14 +117,14 @@ namespace E_livraria_API.Controllers
             var editora = editoras.Find(x => x.login == login.ToUpper());
             try
             {
-            if ((!editora.verificaLogin(login, password)) && editoras.Count() > 0)
-            {
-                return Ok(new { success = false, Data = "Senha Incorreta" });
-            }
+                if ((!editora.verificaLogin(login, password)) && editoras.Count() > 0)
+                {
+                    return NotFound("Senha Incorreta");
+                }
             }
             catch (Exception e)
             {
-                return Ok(new { success = false, Data = e.Message });
+                return NotFound(e.Message);
             }
             await _context.SaveChangesAsync();
             return Ok(new { success = true, Data = editora });
@@ -138,7 +139,7 @@ namespace E_livraria_API.Controllers
             {
                 return NotFound();
             }
-            editora.logout();            
+            editora.logout();
             await this.PutEditora(id, editora);
             return Ok(new { success = true, Data = "Logout successo" });
         }
@@ -158,11 +159,26 @@ namespace E_livraria_API.Controllers
                 editora.listaLivro(livro);
                 await this.PutEditora(editora.id, editora);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Ok(new { success = false, Data = e.Message });
             }
             return Ok(new { success = true, Data = livro });
+        }
+
+        [HttpGet("GetPublicados")]
+        public async Task<ActionResult<IEnumerable<Livro>>> GetPublicados(int id)
+        {
+            var editora = await _context.Editoras.FindAsync(id);
+            var result = from obj in _context.Livro select obj;
+            if (editora == null)
+            {
+                return NotFound();
+            }
+            return await result
+                .Where(x => x.editora.id == id)
+                .OrderBy(x => x.nome)
+                .ToListAsync();
         }
     }
 }
