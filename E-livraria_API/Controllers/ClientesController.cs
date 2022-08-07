@@ -112,7 +112,7 @@ namespace E_livraria_API.Controllers
             var cliente = clientes.Find(x => x.login == login.ToUpper());
             try
             {
-                if ((!cliente.verificaLogin(login, password)) && clientes.Count() > 0)
+                if ((!cliente.verificaLogin(login, password)) && clientes  == null)
                 {
                     return NotFound("Senha Incorreta");
                 }
@@ -152,8 +152,7 @@ namespace E_livraria_API.Controllers
             {
                 success = true,
                 Data = await result
-                .Where(x => x.cliente.id == id)
-                .OrderBy(x => x.livros.nome)
+                .Where(x => x.idCliente == id)
                 .ToListAsync()
             });
          

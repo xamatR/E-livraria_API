@@ -21,15 +21,26 @@ namespace E_livraria_API.Models
         {
             status = StatusVenda.pendende;
             dataCompra = DateTime.Now;
-            verificaPagamento(cliente, livrosVenda);           
+            this.valor = livrosVenda.preco;
         }
-        protected bool verificaPagamento(Cliente cliente , Livro livrosVenda)
+
+        public void setStatus(StatusVenda status)
         {
-            getTotal(livrosVenda);
+            this.status = status;
+        }
+
+        public void setItemVenda(ItemVenda itemVenda)
+        {
+            this.itemVenda = itemVenda;
+        }
+
+        /*
+        protected bool verificaPagamento(int idCliente, int idLivro)
+        {
             //To do -> adicionar metodos de pagamento, e verificar compra aprovada se for aprovada continua.
-            if (true /*metodo de pagamento resposta = 'OK'*/)
+            if (true /*metodo de pagamento resposta = 'OK')
             {
-                vendaConcluida(cliente, livrosVenda);
+                vendaConcluida(idCliente, idCliente);
             }
             else //Caso não aprovada mudar o status para não paga.
             {
@@ -38,26 +49,15 @@ namespace E_livraria_API.Models
             return true;
         }
 
-        public void getTotal(Livro livros)
-        {
-            /*
-            this.valor = 0.0;
-            for (int i = 0; i < livros.Count; i++)
-            {
-                this.valor += livros.ElementAt(i).preco;
-            }*/
-            this.valor = livros.preco;
-        }
-
-        private void vendaConcluida(Cliente cliente, Livro livrosVenda)
+        private void vendaConcluida(int idCliente, int idLivro)
         {
             status = StatusVenda.pago;
-            itemVenda = new ItemVenda(cliente, livrosVenda);
+            itemVenda = new ItemVenda(idCliente, idLivro);
         }
 
         private void vendaCancelada()
         {
             status = StatusVenda.cancelada;
-        }
+        }*/
     }
 }

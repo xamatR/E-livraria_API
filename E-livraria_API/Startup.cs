@@ -43,6 +43,7 @@ namespace E_livraria_API
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             services.AddScoped<LivroService>();
+            services.AddScoped<ItemVendaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

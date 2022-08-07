@@ -14,6 +14,8 @@ namespace E_livraria_API.Models
         [Required]
         public string autor { get; private set; }
         [Required]
+        public string descricao { get; private set; }
+        [Required]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double preco { get; private set; }
         [Required]
@@ -28,11 +30,17 @@ namespace E_livraria_API.Models
         {
         }
 
-        public Livro(int id, string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public Livro(int id)
+        {
+            this.id = id;
+        }
+
+        public Livro(int id, string nome, string autor, string descricao, double preco, string genero, string imageURL, string livroURL, Editora editora)
         {
             this.id = id;
             this.nome = nome;
             this.autor = autor;
+            this.descricao = descricao;
             this.preco = preco;
             this.genero = genero;
             this.imageURL = imageURL;
@@ -40,10 +48,11 @@ namespace E_livraria_API.Models
             this.editora = editora;
         }
 
-        public Livro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public Livro(string nome, string autor, string descricao, double preco, string genero, string imageURL, string livroURL, Editora editora)
         {
             this.nome = nome;
             this.autor = autor;
+            this.descricao = descricao;
             this.preco = preco;
             this.genero = genero;
             this.imageURL = imageURL;

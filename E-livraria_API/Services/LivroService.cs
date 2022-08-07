@@ -16,9 +16,9 @@ namespace E_livraria_API.Services
             _context = context;
         }
 
-        public async Task<Livro> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public async Task<Livro> PostLivro(string nome, string autor, string descricao, double preco, string genero, string imageURL, string livroURL, Editora editora)
         {
-            Livro livro = new Livro(nome, autor, preco, genero, imageURL, livroURL, editora);
+            Livro livro = new Livro(nome, autor, descricao, preco, genero, imageURL, livroURL, editora);
             _context.Livro.Add(livro);
             await _context.SaveChangesAsync();
 

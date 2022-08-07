@@ -145,7 +145,7 @@ namespace E_livraria_API.Controllers
         }
 
         [HttpPost("PostLivro")]
-        public async Task<IActionResult> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, int idEditora)
+        public async Task<IActionResult> PostLivro(string nome, string autor, string descricao, double preco, string genero, string imageURL, string livroURL, int idEditora)
         {
             var editora = await _context.Editoras.FindAsync(idEditora);
             Livro livro = new Livro();
@@ -155,7 +155,7 @@ namespace E_livraria_API.Controllers
             }
             try
             {
-                livro = await livroService.PostLivro(nome, autor, preco, genero, imageURL, livroURL, editora);
+                livro = await livroService.PostLivro(nome, autor,descricao, preco, genero, imageURL, livroURL, editora);
                 editora.listaLivro(livro);
                 await this.PutEditora(editora.id, editora);
             }

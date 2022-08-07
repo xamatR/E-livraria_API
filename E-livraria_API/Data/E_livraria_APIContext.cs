@@ -26,8 +26,7 @@ namespace E_livraria_API.Data
             modelBuilder.Entity<Editora>()
                .HasAlternateKey(x => x.login);
 
-            modelBuilder.Entity<ItemVenda>()
-                .HasOne(x => x.livros);
+            
 
         }
     }

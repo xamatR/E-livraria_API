@@ -15,6 +15,10 @@ namespace E_livraria_API.Models
         {
         }
 
+        public Editora(int id) : base(id)
+        {
+        }
+
         public Editora(string nome, string login, string password) : base(nome, login, password)
         {
             base.accType = accountType.Editora;

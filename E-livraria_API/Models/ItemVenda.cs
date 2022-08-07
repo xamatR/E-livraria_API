@@ -2,38 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_livraria_API.Models
 {
     public class ItemVenda
     {
+        [Key]
         public int id { get; private set; }
-        public Cliente cliente { get; private set; }
-        public Livro livros { get; protected set; }
+        public int idCliente { get; private set; }
+        public int idLivros { get; protected set; }
 
         public ItemVenda()
         {
         }
 
-        public ItemVenda(Cliente cliente, Livro livros)
+        public ItemVenda(int idCliente, int idLivros)
         {
-            this.cliente = cliente;
-            this.livros = livros;
+            this.idCliente = idCliente;
+            this.idLivros = idLivros;
         }
-       /*
-        public void adicionaLivro(Livro livro)
-        {
-            livros.Add(livro);
-        }
-
-        public void removeLivro(Livro livro)
-        {
-            livros.Remove(livro);
-        }
-        public ICollection<Livro> historicoLivrosComprados()
-        {
-            return livros;
-        }*/
-
+      
     }
 }

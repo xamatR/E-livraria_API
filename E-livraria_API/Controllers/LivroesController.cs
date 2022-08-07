@@ -76,14 +76,12 @@ namespace E_livraria_API.Controllers
         // POST: api/Livroes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Livro>> PostLivro(string nome, string autor, double preco, string genero, string imageURL, string livroURL, Editora editora)
+        public async Task<ActionResult<Livro>> PostLivro(string nome, string autor, string descricao, double preco, string genero, string imageURL, string livroURL, Editora editora)
         {
-            Livro livroAux = _context.Livro.LastOrDefault();
-            Livro livro = new Livro(livroAux.id, nome, autor, preco, genero, imageURL, livroURL, editora);
+            Livro livro = new Livro(nome, autor, descricao, preco, genero, imageURL, livroURL, editora);
             _context.Livro.Add(livro);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLivro", new { id = livro.id }, livro);
+            return CreatedAtAction("GetLivro", livro);
         }
 
         // DELETE: api/Livroes/5
