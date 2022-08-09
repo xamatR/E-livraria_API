@@ -3,14 +3,16 @@ using System;
 using E_livraria_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace E_livraria_API.Migrations
 {
     [DbContext(typeof(E_livraria_APIContext))]
-    partial class E_livraria_APIContextModelSnapshot : ModelSnapshot
+    [Migration("20220808164818_initMigration")]
+    partial class initMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,14 +96,15 @@ namespace E_livraria_API.Migrations
                     b.Property<int?>("Clienteid")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Livrosid")
+                    b.Property<int>("idCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idLivros")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("Clienteid");
-
-                    b.HasIndex("Livrosid");
 
                     b.ToTable("ItemVendas");
                 });
@@ -176,17 +179,9 @@ namespace E_livraria_API.Migrations
 
             modelBuilder.Entity("E_livraria_API.Models.ItemVenda", b =>
                 {
-                    b.HasOne("E_livraria_API.Models.Cliente", "Cliente")
+                    b.HasOne("E_livraria_API.Models.Cliente", null)
                         .WithMany("itemVenda")
                         .HasForeignKey("Clienteid");
-
-                    b.HasOne("E_livraria_API.Models.Livro", "Livros")
-                        .WithMany()
-                        .HasForeignKey("Livrosid");
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Livros");
                 });
 
             modelBuilder.Entity("E_livraria_API.Models.Livro", b =>

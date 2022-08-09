@@ -47,14 +47,14 @@ namespace E_livraria_API.Models
         {
             this.id = id;
             this.nome = nome;
-            this.login = login.ToUpper();
+            this.login = login;
             this.password = password;
             this.auth = false;
         }
 
         public bool verificaLogin(string login, string password)
         {
-            if(!(login.ToUpper() == this.login && password == this.password)){
+            if(!(login == this.login && password == this.password)){
                 this.auth = false;
                 return auth;
             }

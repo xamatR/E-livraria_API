@@ -16,17 +16,14 @@ namespace E_livraria_API.Services
             _context = context;
         }
 
-        public async Task<ItemVenda> PostItemVenda(int idCliente , int idLivro)
+        public async Task<ItemVenda> PostItemVenda(Cliente cliente , Livro livro)
         {
-            var cliente = await _context.Clientes.FindAsync(idCliente);
-            var livro = await _context.Livro.FindAsync(idLivro);
-
             if (cliente == null || livro == null)
             {
                 return null;
             }
 
-            ItemVenda itemVenda = new ItemVenda(idCliente, idLivro);
+            ItemVenda itemVenda = new ItemVenda(cliente, livro);
             _context.ItemVendas.Add(itemVenda);
             await _context.SaveChangesAsync();
 

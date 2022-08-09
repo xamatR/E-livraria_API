@@ -34,9 +34,5 @@ namespace E_livraria_API.Models
             livros.Add(livro);
         }
 
-        public void deletaLivro(Livro livro)
-        {
-            livros.Remove(livro);
-        }
     }
 }

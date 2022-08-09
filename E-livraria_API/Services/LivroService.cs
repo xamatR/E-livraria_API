@@ -31,10 +31,11 @@ namespace E_livraria_API.Services
 
             if (livro == null)
             {
-                return null;
+                return livro;
             }
 
             return livro;
         }
+
     }
 }

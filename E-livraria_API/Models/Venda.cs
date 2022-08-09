@@ -17,11 +17,12 @@ namespace E_livraria_API.Models
         {
         }
 
-        public Venda(Livro livrosVenda, Cliente cliente)
+        public Venda(Livro livrosVenda)
         {
             status = StatusVenda.pendende;
             dataCompra = DateTime.Now;
             this.valor = livrosVenda.preco;
+            this.itemVenda = itemVenda;
         }
 
         public void setStatus(StatusVenda status)

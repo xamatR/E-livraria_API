@@ -106,32 +106,21 @@ namespace E_livraria_API.Controllers
             var cliente = await _context.Clientes.FindAsync(idCliente);
             var livro = await _context.Livro.FindAsync(idLivro);
 
-            if (cliente == null|| livro == null)
+            if (cliente == null || livro == null)
             {
-               return NotFound();
+                return NotFound();
             }
 
-            Venda venda = new Venda(livro, cliente);
-            this.verificaPagamento(idCliente, idLivro, venda);
+            Venda venda = new Venda(livro);
+
+            var itemVenda = this.verificaPagamento(cliente, livro, venda).Result;
 
             if (venda.status != Models.Enums.StatusVenda.pago)
             {
                 return Ok(new { success = false, Data = "Pagamento não aprovado compra cancelada, tente novamente mais tarde" });
             }
-
-            try
-            {
-                ItemVenda itemVenda = await itemVendaService.PostItemVenda(idCliente, idLivro);
-                if(itemVenda == null)
-                {
-                    return NotFound();
-                }
-                venda.setItemVenda(itemVenda);
-            }
-            catch (Exception e)
-            {
-                return Ok(new { success = false, Data = e, venda, debug = "itemVenda" });
-            }
+            
+            venda.setItemVenda(itemVenda);
             try
             {
                 _context.vendas.Add(venda);
@@ -145,22 +134,25 @@ namespace E_livraria_API.Controllers
             return Ok(new { success = true, Data = venda });
         }
 
-        private void verificaPagamento(int idCliente, int idLivro, Venda venda)
+        private async Task<ItemVenda> verificaPagamento(Cliente cliente, Livro livro, Venda venda)
         {
             //To do -> adicionar metodos de pagamento, e verificar compra aprovada se for aprovada continua.
             if (true /*metodo de pagamento resposta = 'OK'*/)
             {
-                vendaConcluida(idCliente, idLivro, venda);
+                return await vendaConcluida(cliente, livro, venda);
             }
             else //Caso não aprovada mudar o status para não paga.
             {
                 vendaCancelada(venda);
+                return null;
             }
         }
 
-        private static void vendaConcluida(int idCliente, int idLivro, Venda venda)
+        private async Task<ItemVenda> vendaConcluida(Cliente cliente, Livro livro, Venda venda)
         {
             venda.setStatus(Models.Enums.StatusVenda.pago);
+            var itemVenda = await itemVendaService.PostItemVenda(cliente, livro);
+            return itemVenda;
         }
 
         private static Venda vendaCancelada(Venda venda)

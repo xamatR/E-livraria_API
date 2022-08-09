@@ -10,17 +10,17 @@ namespace E_livraria_API.Models
     {
         [Key]
         public int id { get; private set; }
-        public int idCliente { get; private set; }
-        public int idLivros { get; protected set; }
+        public Cliente Cliente { get; private set; }
+        public Livro Livros { get; protected set; }
 
         public ItemVenda()
         {
         }
 
-        public ItemVenda(int idCliente, int idLivros)
+        public ItemVenda(Cliente Cliente, Livro Livros)
         {
-            this.idCliente = idCliente;
-            this.idLivros = idLivros;
+            this.Cliente = Cliente;
+            this.Livros = Livros;
         }
       
     }

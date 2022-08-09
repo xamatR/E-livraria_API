@@ -113,11 +113,11 @@ namespace E_livraria_API.Controllers
         [HttpGet("Auth")]
         public async Task<IActionResult> Auth(string login, string password)
         {
-            var editoras = await _context.Editoras.ToListAsync();
-            var editora = editoras.Find(x => x.login == login.ToUpper());
+            var result = from obj in _context.Editoras select obj;
+            var editora = await result.FirstAsync(x => x.login ==login);
             try
             {
-                if ((!editora.verificaLogin(login, password)) && editoras.Count() > 0)
+                if ((!editora.verificaLogin(login, password)) || editora == null)
                 {
                     return NotFound("Senha Incorreta");
                 }
@@ -177,8 +177,8 @@ namespace E_livraria_API.Controllers
             }
             return await result
                 .Where(x => x.editora.id == id)
-                .OrderBy(x => x.nome)
                 .ToListAsync();
         }
+
     }
 }

@@ -108,18 +108,18 @@ namespace E_livraria_API.Controllers
         [HttpGet("Auth")]
         public async Task<IActionResult> Auth(string login, string password)
         {
-            var clientes = await _context.Clientes.ToListAsync();
-            var cliente = clientes.Find(x => x.login == login.ToUpper());
+            var result = from obj in _context.Clientes select obj;
+            var cliente = await result.FirstAsync(x => x.login == login);
             try
             {
-                if ((!cliente.verificaLogin(login, password)) && clientes  == null)
+                if (!cliente.verificaLogin(login, password) || cliente == null)
                 {
                     return NotFound("Senha Incorreta");
                 }
             }
             catch (Exception e)
             {
-                return NotFound(e.Message);
+                return NotFound(e);
             }
             await _context.SaveChangesAsync();
             return Ok(new { success = true, Data = cliente });
@@ -144,6 +144,7 @@ namespace E_livraria_API.Controllers
         {
             var cliente = await _context.Clientes.FindAsync(id);
             var result = from obj in _context.ItemVendas select obj;
+
             if (cliente == null)
             {
                 return NotFound();
@@ -152,7 +153,8 @@ namespace E_livraria_API.Controllers
             {
                 success = true,
                 Data = await result
-                .Where(x => x.idCliente == id)
+                .Where(x => x.Cliente.id == id)
+                .Select(x => x.Livros)
                 .ToListAsync()
             });
          

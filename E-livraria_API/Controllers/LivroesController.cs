@@ -21,6 +21,7 @@ namespace E_livraria_API.Controllers
             _context = context;
         }
 
+
         // GET: api/Livroes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Livro>>> GetLivro()
@@ -39,7 +40,7 @@ namespace E_livraria_API.Controllers
                 return NotFound();
             }
 
-            return livro;
+            return Ok(new { success = true , Data = livro});
         }
 
         // PUT: api/Livroes/5
